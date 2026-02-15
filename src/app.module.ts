@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { get_db_config } from './config/typeorm.config';
+import { get_db_config } from './config/get_db_config';
 import { RoomsModule } from './rooms/rooms.module';
 
 @Module({
@@ -12,11 +12,13 @@ import { RoomsModule } from './rooms/rooms.module';
     expandVariables: true,
   }), 
   TypeOrmModule.forRootAsync({
-    useFactory: async () => {
-      return get_db_config().options;
-    },
-  }), RoomsModule
-],
+    useFactory: async () => ({
+      ...get_db_config().options,
+      retryAttempts: 5,          
+      retryDelay: 3000,          
+    }),
+  })
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

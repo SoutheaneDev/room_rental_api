@@ -12,11 +12,11 @@ export class CreateTableRooms1771139259598 implements MigrationInterface {
                         type: 'uuid',
                         isPrimary: true,
                         generationStrategy: 'uuid',
-                        default: 'uuid_generate_v4()',
+                        default: 'UUID()',
                     },
                     {
                         name: 'roomNumber',
-                        type: 'varchar',
+                        type: 'integer',
                     },
                     {
                         name: 'width',
